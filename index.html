@@ -3,359 +3,675 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mabúz Fast Food - Menú Digital</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Mabúz Fast Food - Menú Digital V6 (Swimlanes)</title>
     <style>
-        :root{
-            --bg-principal:#111111;--bg-tarjeta:#1a1a1a;--bg-footer:#0a0a0a;
-            --accent-oro:#ffb703;--accent-rosa:#ff0054;--texto-claro:#f3f4f6;
-            --texto-mutado:#9ca3af;--fuente-sans:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            --fuente-titulos:'Caveat', cursive, sans-serif;--transicion-suave:all 0.3s cubic-bezier(0.4,0,0.2,1);
+        /* --- 1. ARQUITECTURA DE DISEÑO --- */
+        :root {
+            --bg-base: #0a0a0a;
+            --bg-surface: #141414;
+            --bg-surface-elevated: #1e1e1e;
+            --primary: #f59e0b;
+            --secondary: #e91e63;
+            --danger: #ef4444;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+            
+            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --transition-smooth: all 0.3s ease;
+            --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.6);
+            --shadow-hover: 0 12px 28px rgba(245, 158, 11, 0.15);
         }
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        html{scroll-behavior:smooth}
-        body{background-color:var(--bg-principal);color:var(--texto-claro);font-family:var(--fuente-sans);line-height:1.6;overflow-x:hidden;display:flex;flex-direction:column;min-height:100vh}
-        .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
 
-        .hero-header{position:relative;min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px 20px;background-image:linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.6) 60%, var(--bg-principal) 100%), url('comienzo.jpg');background-size:cover;background-position:center}
-        .btn-whatsapp-header{position:absolute;top:20px;right:60px;background-color:rgba(17,17,17,0.75);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15);color:var(--texto-claro);text-decoration:none;padding:8px 18px;border-radius:30px;font-weight:600;font-size:0.9rem;display:flex;align-items:center;gap:8px;transition:var(--transicion-suave);z-index:10}
-        .btn-whatsapp-header:hover{background-color:#25D366;color:#fff;border-color:#25D366;transform:translateY(-2px);box-shadow:0 4px 15px rgba(37,211,102,0.4)}
-        .hero-content{position:relative;z-index:2;max-width:800px;width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;animation:fadeInUP 0.8s ease forwards}
-        .hero-logo{max-width:280px;width:85%;height:auto;object-fit:contain;margin-bottom:5px;filter:drop-shadow(0 10px 20px rgba(0,0,0,0.8))}
-        .hero-subtitle{font-size:clamp(1.2rem,3vw,1.8rem);font-weight:900;text-transform:uppercase;letter-spacing:2px;color:var(--texto-claro);text-shadow:2px 2px 8px rgba(0,0,0,0.9);line-height:1.2}
-        .hero-description{font-size:clamp(0.85rem,1.5vw,1rem);color:#d1d5db;max-width:600px;text-shadow:1px 1px 4px rgba(0,0,0,0.9);margin-bottom:5px}
-
-        nav.filtros-wrapper{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:15px 20px 20px 20px;position:sticky;top:0;background-color:rgba(17,17,17,0.95);backdrop-filter:blur(12px);z-index:100;border-bottom:1px solid rgba(255,255,255,0.05)}
-        .btn-filtro{background-color:var(--bg-tarjeta);color:var(--texto-claro);border:1px solid rgba(255,255,255,0.1);padding:8px 16px;border-radius:30px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:var(--transicion-suave)}
-        .btn-filtro:hover,.btn-filtro.activo{background-color:var(--accent-oro);color:#000;border-color:var(--accent-oro);transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,183,3,0.3)}
-
-        main{flex:1;width:100%;display:flex;flex-direction:column;align-items:center}
-        .banner-informativo{width:100%;max-width:1200px;padding:0 20px;margin:25px auto 10px auto}
-        .grid-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px;background-color:var(--bg-tarjeta);padding:15px 20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 5px 15px rgba(0,0,0,0.3)}
-        .info-item{display:flex;align-items:center;gap:15px}
-        .info-icon{font-size:2rem;color:var(--accent-oro);display:flex;align-items:center;justify-content:center;background:rgba(255,183,3,0.1);width:45px;height:45px;border-radius:50%}
-        .info-texto h4{font-size:0.9rem;color:var(--accent-rosa);text-transform:uppercase;font-weight:800;margin-bottom:2px;letter-spacing:0.5px}
-        .info-texto p{font-size:0.75rem;color:var(--texto-claro);line-height:1.3}
-        .info-texto span.resalte{color:var(--texto-mutado)}
-
-        .contenedor-central{max-width:1200px;margin:0 auto;padding:10px 20px 40px 20px;width:100%}
-        .menu-seccion{margin-bottom:50px;scroll-margin-top:100px}
-        .titulo-seccion-manuscrito{font-family:var(--fuente-titulos);font-size:2.8rem;text-align:center;color:var(--accent-rosa);margin-bottom:25px;font-weight:700;letter-spacing:1px;text-transform:capitalize;border-bottom:1px solid rgba(255,0,84,0.2);padding-bottom:10px}
-
-        .grid-productos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;justify-content:center}
-        .tarjeta-producto{background-color:var(--bg-tarjeta);border-radius:12px;overflow:hidden;box-shadow:0 8px 15px rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.02);transition:var(--transicion-suave);display:flex;flex-direction:column;text-align:center}
-        .tarjeta-producto:hover{transform:translateY(-5px);box-shadow:0 12px 20px rgba(0,0,0,0.6);border-color:rgba(255,0,84,0.2)}
-
-        .contenedor-imagen{position:relative;width:100%;aspect-ratio:4/3;background-color:transparent;overflow:hidden;padding:10px}
-        .contenedor-imagen img{width:100%;height:100%;object-fit:contain;transition:transform 0.5s ease;filter:drop-shadow(0 5px 8px rgba(0,0,0,0.5))}
-        .tarjeta-producto:hover .contenedor-imagen img{transform:scale(1.05)}
-
-        .info-producto{padding:10px 15px 20px 15px;display:flex;flex-direction:column;flex-grow:1;align-items:center}
-        .meta-titulo h3{font-family:var(--fuente-titulos);font-size:1.8rem;color:var(--texto-claro);font-weight:500;margin-bottom:2px}
-        .descripcion-producto{font-size:0.75rem;color:var(--texto-mutado);margin-bottom:15px;flex-grow:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
-        .precio-unico{background-color:var(--accent-oro);color:#000;font-weight:800;font-size:0.95rem;padding:4px 18px;border-radius:6px;display:inline-block;box-shadow:0 4px 10px rgba(255,183,3,0.2)}
-        .contenedor-precios-variados{background-color:rgba(255,255,255,0.03);border-radius:6px;padding:8px;width:100%;margin-top:auto}
-        .fila-precio{display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:4px}
-        .label-variante{color:var(--texto-mutado);text-transform:uppercase}
-        .valor-variante{color:var(--accent-oro);font-weight:700}
-
-        .seccion-promo{background-color:var(--accent-oro);color:#000;width:100%;padding:50px 20px;border-bottom:6px solid var(--accent-rosa);border-top:6px solid var(--accent-rosa);position:relative}
-        .promo-container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
-        .collage-imagenes{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:10px;position:relative;margin-top:-80px;margin-bottom:-80px}
-        .img-collage{width:100%;height:100%;object-fit:cover;border-radius:8px;box-shadow:0 10px 20px rgba(0,0,0,0.5)}
-        .img-c1{grid-column:1/2;grid-row:1/3;min-height:300px}
-        .img-c2{grid-column:2/3;grid-row:1/2;min-height:145px}
-        .img-c3{grid-column:2/3;grid-row:2/3;min-height:145px}
-        .promo-texto h3{font-family:var(--fuente-titulos);font-size:3rem;line-height:1;margin-bottom:15px}
-        .promo-texto p{font-size:0.9rem;font-weight:600;margin-bottom:10px;opacity:0.85}
-
-        footer{background-color:var(--bg-footer);padding:40px 20px 20px 20px;width:100%;margin-top:auto}
-        .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-bottom:30px}
-        .footer-col-titulo{font-family:var(--fuente-titulos);font-size:1.8rem;color:var(--accent-oro);margin-bottom:15px;border-bottom:1px solid var(--accent-rosa);padding-bottom:5px;display:inline-block}
-        .contacto-info{display:flex;flex-direction:column;gap:8px}
-        .contacto-item{display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--texto-mutado)}
-        .footer-links{list-style:none;display:flex;flex-direction:column;gap:8px}
-        .footer-links a{color:var(--texto-mutado);text-decoration:none;font-size:0.85rem;transition:var(--transicion-suave)}
-        .footer-links a:hover{color:var(--accent-rosa)}
-        .footer-bottom{text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:15px;background-color:var(--accent-rosa);color:white;margin:0 -20px -20px -20px;padding:12px;font-size:0.75rem;font-weight:bold;letter-spacing:1px}
-
-        @keyframes fadeInUP{0%{opacity:0;transform:translateY(15px)}100%{opacity:1;transform:translateY(0)}}
-        @media (max-width:768px){
-            .btn-whatsapp-header{top:15px;right:15px;font-size:0.8rem;padding:6px 12px}
-            .grid-info{grid-template-columns:1fr}
-            .promo-container{grid-template-columns:1fr}
-            .collage-imagenes{margin-top:0;margin-bottom:20px}
-            .img-c1{min-height:250px}
-            .grid-productos{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+        /* --- 2. RESET & BASE --- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* --- 3. HERO SECTION --- */
+        .hero {
+            position: relative;
+            min-height: 45vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, var(--bg-base) 100%), url('hero.jpg') center/cover no-repeat;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .hero-logo { width: 100%; max-width: 240px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }
+        
+        .hero h2 {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero p { color: var(--text-muted); font-size: clamp(0.9rem, 2vw, 1.1rem); max-width: 500px; }
+
+        .btn-primary {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 2px solid var(--danger);
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            backdrop-filter: blur(4px);
+            margin-top: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--danger);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Botón WhatsApp Superior */
+        .whatsapp-float-top {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(37, 211, 102, 0.15); /* Verde WhatsApp sutil */
+            border: 1px solid #25D366;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            z-index: 10;
+            transition: var(--transition-bounce);
+            backdrop-filter: blur(5px);
+        }
+
+        .whatsapp-float-top:hover {
+            background-color: #25D366;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        /* Ajuste para móviles: que no choque con los bordes si la pantalla es muy pequeña */
+        @media (max-width: 480px) {
+            .whatsapp-float-top {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* --- 4. NAVEGACIÓN Y FILTROS --- */
+        .nav-filtros {
+            position: sticky;
+            top: 0;
+            background-color: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .filtros-container {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-content: flex-start;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            padding-bottom: 0.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .filtros-container { justify-content: center; overflow-x: visible; }
+        }
+
+        .filtros-container::-webkit-scrollbar { display: none; }
+
+        .btn-filtro {
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+            background-color: var(--bg-surface);
+            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-filtro:hover, .btn-filtro.activo {
+            background-color: var(--primary);
+            color: var(--bg-base);
+            border-color: var(--primary);
+        }
+
+        /* --- 5. INFO BAR --- */
+        .info-bar-section { padding: 2rem 1rem; }
+        
+        .info-bar {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .info-item { display: flex; align-items: center; gap: 1rem; }
+        
+        .info-icon {
+            width: 48px; height: 48px;
+            background-color: var(--bg-surface-elevated);
+            border-radius: var(--radius-full);
+            display: grid; place-items: center;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            flex-shrink: 0;
+        }
+
+        .info-text h4 { color: var(--secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.2rem; }
+        .info-text p { font-size: 0.9rem; color: var(--text-main); }
+        .info-text span { color: var(--text-muted); font-size: 0.8rem; display: block; }
+
+        /* --- 6. SWIMLANES (CARRUSELES DE PRODUCTOS) --- */
+        .menu-container {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 0 4rem 0; /* Quitamos padding lateral para que el scroll llegue al borde */
+            overflow: hidden; /* Evita scrolls fantasmas en el body */
+        }
+
+        .menu-seccion { 
+            margin-bottom: 3.5rem; 
+        }
+        
+        .seccion-titulo {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0 1rem; /* Mantenemos el título alineado al contenido */
+        }
+        
+        .seccion-titulo::before {
+            content: '';
+            display: block;
+            width: 4px; height: 24px;
+            background-color: var(--danger);
+            border-radius: 4px;
+        }
+
+        /* Contenedor del Carrusel Horizontal */
+        .carrusel-productos {
+            display: flex;
+            gap: 1.2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 1rem; /* Espacio para las sombras (box-shadow) */
+            margin: -1rem 0; /* Compensa el padding para alinear */
+            
+            /* Scrollbar personalizado para Desktop */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(255,255,255,0.05);
+        }
+
+        /* Estilos webkit para el scrollbar (Chrome, Safari, Edge) */
+        .carrusel-productos::-webkit-scrollbar {
+            height: 6px;
+        }
+        .carrusel-productos::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            margin: 0 1rem; /* Evita que la barra toque los bordes de la pantalla */
+        }
+        .carrusel-productos::-webkit-scrollbar-thumb {
+            background-color: rgba(245, 158, 11, 0.5); /* Color oro con opacidad */
+            border-radius: 10px;
+        }
+        .carrusel-productos:hover::-webkit-scrollbar-thumb {
+            background-color: var(--primary); /* Se ilumina al hacer hover en la fila */
+        }
+
+        /* --- ESTRUCTURA DE LA TARJETA --- */
+        .card {
+            flex: 0 0 auto; /* Importante: Evita que flexbox aplaste las tarjetas */
+            width: 80vw; /* En móviles ocupa el 80% de la pantalla para dejar ver la siguiente tarjeta */
+            max-width: 300px; /* En PC no crece más de esto */
+            scroll-snap-align: start; /* El scroll se detiene exactamente al inicio de cada tarjeta */
+            
+            background-color: var(--bg-surface);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition-bounce);
+            box-shadow: var(--shadow-card);
+            
+            /* Animación de entrada inicial */
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
+        /* Elemento fantasma para dar margen derecho al final del carrusel */
+        .carrusel-spacer {
+            flex: 0 0 auto;
+            width: 1px;
+            height: 100%;
+        }
+
+        .card.visible { opacity: 1; transform: translateX(0); }
+        .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: rgba(245,158,11,0.2); }
+
+        .card-img-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/3; 
+            max-height: 220px; 
+            background-color: var(--bg-surface-elevated);
+            overflow: hidden;
+        }
+
+        .card-img-wrapper img {
+            width: 100%; height: 100%;
+            object-fit: cover; 
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img-wrapper img { transform: scale(1.05); }
+
+        .badge {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 1px solid rgba(245,158,11,0.3);
+        }
+
+        .card-body { padding: 1.25rem; display: flex; flex-direction: column; flex: 1; }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.5rem; }
+        .card-title { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+        .card-price { color: var(--primary); font-weight: 800; font-size: 1.2rem; }
+        
+        .card-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; flex: 1; }
+
+        .card-variants {
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 0.75rem;
+            display: grid;
+            gap: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .variant-row { display: flex; justify-content: space-between; font-size: 0.85rem; }
+        .variant-label { color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .variant-price { color: var(--primary); font-weight: 700; }
+
+        /* Toppings - Se mantienen horizontales pero más pequeñas */
+        .card-topping {
+            flex: 0 0 auto;
+            width: 65vw;
+            max-width: 240px;
+            scroll-snap-align: start;
+            background: var(--bg-surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-card);
+        }
+        .topping-info h4 { font-size: 0.9rem; color: var(--text-main); }
+        .topping-info p { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* --- 7. RESERVACIONES --- */
+        .reservaciones { background-color: var(--bg-base); padding: 4rem 1rem; }
+        .res-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; border-radius: var(--radius-lg); overflow: hidden; }
+        
+        .res-grid-img { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .res-img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md); background: var(--bg-surface-elevated); min-height: 200px; }
+        .res-img.large { grid-column: 1 / -1; height: 250px; }
+
+        .res-info {
+            background-color: #fdb813; color: #111;
+            padding: 3rem; border-radius: var(--radius-md);
+            display: flex; flex-direction: column; justify-content: center;
+            border-top: 8px solid var(--secondary); border-bottom: 8px solid var(--secondary);
+        }
+        
+        .res-info h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 1rem; line-height: 1.1; }
+        .res-info p { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem; }
+
+        /* --- 8. FOOTER --- */
+        .footer { background-color: #050505; padding: 4rem 1rem 2rem 1rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; }
+        
+        .footer-col h3 { color: var(--primary); font-size: 1.2rem; font-weight: 800; margin-bottom: 1.5rem; }
+        .footer-col h3.highlight { border-bottom: 2px solid var(--secondary); display: inline-block; padding-bottom: 0.25rem; }
+        
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+        .footer-col li { display: flex; align-items: center; gap: 0.75rem; color: #ccc; font-size: 0.9rem; }
+        .footer-col a { color: #ccc; text-decoration: none; transition: var(--transition-smooth); }
+        .footer-col a:hover { color: var(--primary); padding-left: 5px; }
+        .footer-col p { color: #ccc; font-size: 0.9rem; line-height: 1.6; }
+        
+        .f-icon { font-size: 1.1rem; background: var(--bg-surface); padding: 0.4rem; border-radius: 6px; }
+
+        .footer-bottom { max-width: 1200px; margin: 3rem auto 0 auto; text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            .res-container { grid-template-columns: 1fr; }
+            .res-info { padding: 2rem; text-align: center; border-left: 8px solid var(--secondary); border-right: 8px solid var(--secondary); border-top: none; border-bottom: none; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <header class="hero-header">
-        <a href="https://wa.me/584121234567" class="btn-whatsapp-header" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" id="whatsappHeader">
-         +58 412-1234567
+    <header class="hero">
+        <!-- BOTÓN WHATSAPP TOP RIGHT -->
+        <a href="https://wa.me/584121234567" target="_blank" rel="noopener noreferrer" class="whatsapp-float-top">
+            <span style="font-size: 1.2rem;"></span> WhatsApp
         </a>
-
         <div class="hero-content">
             <img src="logo.png" alt="Mabúz Fast Food" class="hero-logo">
             <h1 class="sr-only">Mabúz Fast Food</h1>
-            <h2 class="hero-subtitle">COMIDA RÁPIDA / CATERING</h2>
-            <p class="hero-description">Una experiencia premium de comida con ingredientes naturales y frescos.</p>
+            <h2>COMIDA RÁPIDA / CATERING</h2>
+            <p>Una experiencia premium de comida con ingredientes naturales y frescos.</p>
+            <button class="btn-primary" onclick="document.getElementById('menu-filtros').scrollIntoView({behavior: 'smooth'})">Ver Menú</button>
         </div>
     </header>
 
-    <nav class="filtros-wrapper" id="menu-filtros" role="navigation" aria-label="Filtros del menú">
-        <button class="btn-filtro activo" data-categoria="pizzas" aria-pressed="true">Pizzas</button>
-        <button class="btn-filtro" data-categoria="hamburguesas" aria-pressed="false">Hamburguesas</button>
-        <button class="btn-filtro" data-categoria="piezas" aria-pressed="false">Piezas</button>
-        <button class="btn-filtro" data-categoria="bebidas" aria-pressed="false">Bebidas</button>
-        <button class="btn-filtro" data-categoria="adicionales" aria-pressed="false">Toppings</button>
+    <nav class="nav-filtros" id="menu-filtros">
+        <div class="filtros-container">
+            <button class="btn-filtro activo" data-categoria="todos">Todos</button>
+            <button class="btn-filtro" data-categoria="pizzas">Pizzas</button>
+            <button class="btn-filtro" data-categoria="hamburguesas">Hamburguesas</button>
+            <button class="btn-filtro" data-categoria="piezas">Piezas</button>
+            <button class="btn-filtro" data-categoria="bebidas">Bebidas</button>
+            <button class="btn-filtro" data-categoria="adicionales">Toppings</button>
+        </div>
     </nav>
 
-    <main>
-        <section class="banner-informativo">
-            <div class="grid-info">
-                <div class="info-item">
-                    <div class="info-icon">🕒</div>
-                    <div class="info-texto">
-                        <h4>Horarios</h4>
-                        <p>Mar - Dom: 12:00pm a 12:00am<br><span class="resalte">Lunes: Cerrado</span></p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <div class="info-icon">🛵</div>
-                    <div class="info-texto">
-                        <h4>Delivery & Zonas</h4>
-                        <p>Cabudare Centro (Entrega Rápida)<br><span class="resalte">Barquisimeto Este (Consultar)</span></p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <div class="info-icon">♨️</div>
-                    <div class="info-texto">
-                        <h4>Beneficios</h4>
-                        <p>Delivery Free (&lt; 1.5km)<br><span class="resalte">Pedido llega siempre caliente</span></p>
-                    </div>
+    <section class="info-bar-section">
+        <div class="info-bar">
+            <div class="info-item">
+                <div class="info-icon">🕒</div>
+                <div class="info-text">
+                    <h4>Horarios</h4>
+                    <p>Mar - Dom: 12:00pm a 12:00am<span>Lunes: Cerrado</span></p>
                 </div>
             </div>
-        </section>
-
-        <div class="contenedor-central" id="menu-render-target"></div>
-
-        <section class="seccion-promo">
-            <div class="promo-container">
-                <div class="collage-imagenes">
-                    <img src="comienzo.jpg" alt="Local" class="img-collage img-c1" onerror="this.onerror=null;this.src='placeholder.jpg'">
-                    <img src="local.jpg" alt="Pizza" class="img-collage img-c2" onerror="this.onerror=null;this.src='placeholder.jpg'">
-                    <img src="foto2.jpg" alt="Hamburguesa" class="img-collage img-c3" onerror="this.onerror=null;this.src='placeholder.jpg'">
-                </div>
-                <div class="promo-texto">
-                    <h3>Reservaciones</h3>
-                    <p>¡Asegurá tu mesa y disfrutá sin esperas!</p>
-                    <p>Nuestro local se llena rápido, reserva tu lugar con anticipación. Elegí el día, la hora y vení a disfrutar con amigos.</p>
+            <div class="info-item">
+                <div class="info-icon">🛵</div>
+                <div class="info-text">
+                    <h4>Delivery & Zonas</h4>
+                    <p>Cabudare Centro <span>(Entrega Rápida)</span><span>Barquisimeto Este (Consultar)</span></p>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-grid">
-            <div>
-                <h3 class="footer-col-titulo">Contacto</h3>
-                <div class="contacto-info">
-                    <div class="contacto-item"><span>📷</span> @MabuzFastFood</div>
-                    <div class="contacto-item"><span>📱</span> +58 412-1234567</div>
-                    <div class="contacto-item"><span>✉️</span> mabuz@gmail.com</div>
-                </div>
-            </div>
-            <div>
-                <h3 class="footer-col-titulo" style="border-color: transparent; color: transparent; user-select: none;">.</h3>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="window.scrollTo(0,0); return false;">Inicio</a></li>
-                    <li><a href="#seccion-pizzas">Menú</a></li>
-                    <li><a href="#">Reservaciones</a></li>
-                </ul>
-            </div>
-            <div>
-                <div class="info-texto">
-                    <h4 style="color:var(--accent-oro); margin-bottom:5px;">Horarios</h4>
-                    <p>Lunes: Cerrado<br>Mar - Dom: 12:00pm - 12:00am</p>
-                </div>
-            </div>
-            <div>
-                <div class="info-texto">
-                    <h4 style="color:var(--accent-oro); margin-bottom:5px;">Ubicación Principal</h4>
-                    <p>Cabudare<br>Av. Principal con Calle 4</p>
+            <div class="info-item">
+                <div class="info-icon">♨️</div>
+                <div class="info-text">
+                    <h4>Beneficios</h4>
+                    <p>Delivery Free <span>(< 1.5km)</span><span>Pedido llega siempre caliente</span></p>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- AQUÍ ESTÁ LA MAGIA DEL RENDERIZADO -->
+    <main class="menu-container" id="menu-render-target"></main>
+
+    <section class="reservaciones">
+        <div class="res-container">
+            <div class="res-grid-img">
+                <img src="local1.jpg" alt="Local Mabuz" class="res-img large" loading="lazy">
+                <img src="footer.png" alt="Mesa Mabuz" class="res-img" loading="lazy">
+                <img src="footer1.png" alt="Detalle Mabuz" class="res-img" loading="lazy">
+            </div>
+            <div class="res-info">
+                <h2>Reservaciones</h2>
+                <p><strong>¡Asegurá tu mesa y disfrutá sin esperas!</strong></p>
+                <p>Nuestro local se llena rápido, reserva tu lugar con anticipación. Elegí el día, la hora y vení a disfrutar con amigos.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="highlight">Contacto</h3>
+                <ul>
+                    <li><span class="f-icon">📷</span> @Mabuz2525</li>
+                    <li><span class="f-icon">📱</span> +58 414-7582015</li>
+                    <li><span class="f-icon">✉️</span> mabuz@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Navegación</h3>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#menu-filtros">Menú</a></li>
+                    <li><a href="#">Reservaciones</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Horarios</h3>
+                <p>Lunes: Cerrado<br>Mar - Dom: 5:00pm - 12:00am</p>
+            </div>
+            <div class="footer-col">
+                <h3>Ubicación Principal</h3>
+                <p>Santa Cruz<br> Santa Barbara</p>
+            </div>
+        </div>
         <div class="footer-bottom">
-            &copy; <span id="year"></span> MABÚZ FAST FOOD. TODOS LOS DERECHOS RESERVADOS.
+            &copy; <span id="year"></span> Mabúz. Todos los derechos reservados. Arquitectura digital de alto rendimiento.
         </div>
     </footer>
 
     <script>
-/* ============================================
-   Datos del menú (corregidos: ids únicos y nombres)
-   ============================================ */
-const MABUZ_DATA = {
-    pizzas: [
-        { id: "p1", nombre: "Margarita", ing: "Jamón, Mozzarella, Salsa Napolitana, Masa de la Casa", precios:{ mediana:"25.000", familiar:"40.000" }, imagen:"1.jpg" },
-        { id: "p2", nombre: "Pepperoni", ing: "Pepperoni, Mozzarella, Masa de la Casa", precios:{ mediana:"30.000", familiar:"45.000" }, imagen:"2.JPG" },
-        { id: "p3", nombre: "Hawaiana", ing: "Piña, Mozzarella, Jamón, Masa de la Casa", precios:{ mediana:"30.000", familiar:"50.000" }, imagen:"3.jpg" },
-        { id: "p4", nombre: "Cheddar", ing: "Salsa especial, Cheddar, Jamón", precios:{ mediana:"30.000", familiar:"50.000" }, imagen:"4.jpg" },
-        { id: "p5", nombre: "4 Estaciones", ing: "Variados ingredientes por estación", precios:{ mediana:"30.000", familiar:"50.000" }, imagen:"5.jpg" },
-        { id: "p6", nombre: "Bacon", ing: "Bacon crocante, Mozzarella", precios:{ mediana:"30.000", familiar:"50.000" }, imagen:"6.jpg" },
-        { id: "p7", nombre: "Red", ing: "Salsa picante, Pepperoni, extra queso", precios:{ mediana:"30.000", familiar:"50.000" }, imagen:"7.jpeg" }
-    ],
-    hamburguesas: [
-        { id: "h1", nombre: "Bacon", ing: "Pan de papa, Carne 150g, Doble Cheddar, Mermelada de Tocineta, Lechuga, Tomate", precio:"35.000", imagen:"14.jpg" },
-        { id: "h2", nombre: "Americana", ing: "Pan Brioche, Carne 150g, Cheddar, Cebolla Caramelizada, Tocineta, Lechuga", precio:"25.000", imagen:"13.jpg" }
-    ],
-    piezas: [
-        { id:"pz1", nombre:"Pastel de Carne", ing:"Crujiente rellena de carne sazonada", precio:"2.500", imagen:"pastel_carne.jpeg" },
-        { id:"pz2", nombre:"Pastel de Papa", ing:"Especialidad de la casa", precio:"8.000", imagen:"pastel_papa.jpeg" },
-        { id:"pz3", nombre:"Moñongo", ing:"Rellenos de queso artesanal", precio:"2.500", imagen:"tequenos.jpg" },
-        { id:"pz4", nombre:"Tequeños", ing:"Rellenos de queso artesanal", precio:"2.500", imagen:"tequenos.jpg" },
-        { id:"pz5", nombre:"Tequeños de Mozzarella", ing:"Rellenos de queso artesanal", precio:"2.500", imagen:"Tequeños_de_mozzarella.jpg" },
-        { id:"pz6", nombre:"Pateles de Pizza", ing:"Rellenos de queso artesanal", precio:"2.500", imagen:"Tequeños y pasteles.jpg" }
-    ],
-    bebidas: [
-        { id:"b1", nombre:"Refrescos Botella", ing:"Presentación individual", precio:"4.000", imagen:"refrsco_b.jpeg" },
-        { id:"b2", nombre:"Refrescos 1L", ing:"Un litro para compartir", precio:"5.000", imagen:"refrescoL.jpeg" },
-        { id:"b3", nombre:"Refrescos 2L", ing:"Para el grupo", precio:"5.000", imagen:"refresco2l.jpeg" },
-        { id:"b4", nombre:"Malta de Botella", ing:"Presentación individual", precio:"5.000", imagen:"malta.jpeg" },
-        { id:"b5", nombre:"Malta 1.5L", ing:"Para compartir", precio:"5.000", imagen:"maltin.jpeg" },
-        { id:"b6", nombre:"Jugo el Valle", ing:"Un litro", precio:"5.000", imagen:"el_valle.jpeg" },
-        { id:"b7", nombre:"Cerveza", ing:"Botella", precio:"5.000", imagen:"cerveza.jpeg" }
-    ],
-    adicionales: [
-        { id:"a1", nombre:"Vegetales", imagen:"vegetales.jpeg", sub:"Maíz / Pimentón / Cebolla", precio:"3.000" },
-        { id:"a2", nombre:"Pepperoni", imagen:"pepperoni.jpeg", sub:"Porción extra", precio:"8.000" },
-        { id:"a3", nombre:"Aceitunas Negras", imagen:"aceitunas.jpeg", sub:"Porción extra", precio:"8.000" },
-        { id:"a4", nombre:"Salami", imagen:"salami.jpeg", sub:"Porción extra", precio:"8.000" },
-        { id:"a5", nombre:"Champiñones", imagen:"champinones.jpeg", sub:"Porción extra", precio:"8.000" },
-        { id:"a6", nombre:"Tocineta", imagen:"tocineta.jpeg", sub:"Porción extra", precio:"8.000" }
-    ]
-};
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-/* ============================================
-   Utilidades y render
-   ============================================ */
-const target = document.getElementById("menu-render-target");
+        const MABUZ_DATA = {
+            pizzas: [
+                { id: "p1", nombre: "Margarita", ing: "Jamón, Mozzarella, Salsa Napolitana, Masa de la Casa", precios: { mediana: "25.000", familiar: "40.000" }, imagen: "margarita.png" },
+                { id: "p2", nombre: "Pepperoni", ing: "Pepperoni, Mozarella, Masa de la Casa", precios: { mediana: "30.000", familiar: "45.000" }, imagen: "pepperoni.png" },
+                { id: "p3", nombre: "Hawaiana", ing: "Piña, Mozzarella, Jamón, Masa de la Casa", precios: { mediana: "30.000", familiar: "50.000" }, imagen: "hawaiana.png" },
+                { id: "p4", nombre: "Cheddar", ing: "Mozzarella, Jamón de Pierna, Queso Cheddar, Tocineta Crujiente, Masa de la Casa", precios: { mediana: "30.000", familiar: "50.000" }, imagen: "cheddar.png" },
+                { id: "p5", nombre: "4 Estaciones", ing: "Tocineta, Pepperoni, Jamón Ahumado, Maíz, Masa de la Casa", precios: { mediana: "35.000", familiar: "55.000" }, imagen: "4_estaciones.png" },
+                { id: "p6", nombre: "Bacon", ing: "Jamón Ahumado, Maíz, Salsa Bacon,Mozzarella, Masa de la casa", precios: { mediana: "35.000", familiar: "55.000" }, imagen: "bacon.png" },
+                { id: "p7", nombre: "Red", ing: "Tocineta, Pepperoni, Jamón Ahumado, Salamí, Masa de la Casa, Jamon Ahumado", precios: { mediana: "40.000", familiar: "65.000" }, imagen: "red.png" }
+            ],
+            hamburguesas: [
+                { id: "h1", nombre: "Bacon", ing: "Pan de papa, Carne 150g, Doble Cheddar, Mermelada de Tocineta, Lechuga, Tomate, Papas Fritas", precio: "35.000" , imagen: "baco.png" },
+                { id: "h2", nombre: "Americana", ing: "Pan Brioche, Carne 150g, Cheddar, Cebolla Caramelizada, Tocineta, Papas Fritas", precio: "25.000" , imagen: "americana.png" },
+                { id: "h3", nombre: "Pollo Crispi", ing: "Pan Brioche, Pollo Crispi, Queso Americano, Vegetales", precio: "20.000" , imagen: "pollo_crispi.png" }
+            ],
+            piezas: [
+                { id: "pz1", nombre: "Pastel de Carne", ing: "Pieza individual crujiente rellena de carne sazonada", precio: "2.500", imagen: "pastel_de_carne.png" },
+                { id: "pz2", nombre: "Pastel de Papa", ing: "Pieza individual tradicional rellenos de Papa (unidad)", precio: "2.500", imagen: "pastel_de_papa.png" },
+                { id: "pz3", nombre: "Pastel de Pizza", ing: "Relleno de salsa, queso y orégano", precio: "3.000", imagen: "pastel_de_pizza.png" },
+                { id: "pz4", nombre: "Moñongos", ing: "Dedos de masa rellenos de queso derretido y carne", precio: "8.000", imagen: "monongos.png" },
+                { id: "pz5", nombre: "Tequeños", ing: "Dedos de masa rellenos de queso derretido", precio: "2.500", imagen: "tequenos.png" },
+                { id: "pz6", nombre: "Tequeños de Mozzarella", ing: "Dedos de masa rellenos de queso derretido", precio: "4.000", imagen: "tequenos_de_mozzarella.png" }
+            ],
+            bebidas: [
+                { id: "b1", nombre: "Refrescos de Botella", ing: "Formato personal ", precio: "4.000", imagen: "botella.png" },
+                { id: "b2", nombre: "Refrescos 1L", ing: "Formato familiar de un litro para compartir", precio: "5.000", imagen: "litro.png" },
+                { id: "b3", nombre: "Refrescos 2L", ing: "Formato familiar de un litro para compartir", precio: "8.000", imagen: "litro.png" },
+                { id: "b4", nombre: "Malta de Botella", ing: "fría para acompañar tus platos", precio: "3.000", imagen: "malta_de_botella.png" },
+                { id: "b5", nombre: "Malta de 1.5L", ing: "fría para acompañar tus platos", precio: "10.000", imagen: "malta_de_litro.png" },
+                { id: "b6", nombre: "Jugo del Valle", ing: "frío para acompañar tus platos", precio: "8.000", imagen: "jugo_del_valle.png" },
+                { id: "b7", nombre: "Cervezas", ing: "frío para acompañar tus platos", precio: "3.000", imagen: "cervezas.png" }
+            ],
+             Cócteles:  [
+                { id: "b1", nombre: "Mojito de Fresa", ing: "Una versión frutada y refrescante", precio: "0.000", imagen: "fresa.png" },
+                { id: "b2", nombre: "Mojito de Parchita", ing: "Una versión frutada y refrescante", precio: "0.000", imagen: "parchita.png" },
+                { id: "b3", nombre: "Mojito Clasico", ing: "Una versión frutada y refrescante", precio: "0.000", imagen: "clasico.png" },
+                { id: "b4", nombre: "Cóctel Daikiry", ing: "Una versión frutada y refrescante", precio: "0.000", imagen: "daikiry.png" },
+                { id: "b5", nombre: "Limonada de Coco", ing: "Una versión frutada y refrescante", precio: "0.000", imagen: "limonada_de_coco.png" },
+                { id: "b6", nombre: "Cuba Libre", ing: "Una versión frutada y refrescante", precio: "0.000", imagen: "cuba_libre.png" }
+            ],
+            
+            adicionales: [
+                { id: "a1", nombre: "Vegetales", sub: "Maíz / Pimentón / Cebolla", precio: "3.000" },
+                { id: "a6", nombre: "Tocineta", sub: "Tiras crujientes adicionales", precio: "5.000" },
+                { id: "a7", nombre: "Queso Extra", sub: "Doble ración de mozzarella", precio: "4.000" }
+            ]
+        };
 
-const sanitizarHTML = (str) => {
-    if (!str) return '';
-    const temp = document.createElement('div');
-    temp.textContent = str;
-    return temp.innerHTML;
-};
+        const target = document.getElementById("menu-render-target");
+        const filtros = document.querySelectorAll(".btn-filtro");
 
-const DISPLAY_NAMES = {
-    pizzas: "Pizzas",
-    hamburguesas: "Hamburguesas",
-    piezas: "Piezas",
-    bebidas: "Bebidas",
-    adicionales: "Toppings"
-};
+        // El observador ahora evalúa el eje X (horizontal) también
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    scrollObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
 
-function renderCartaCompleta(){
-    target.innerHTML = "";
-    Object.keys(MABUZ_DATA).forEach(catKey => {
-        const lista = MABUZ_DATA[catKey];
-        if (!Array.isArray(lista) || lista.length === 0) return;
+        const sanitizarHTML = (str) => {
+            if (!str) return '';
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        };
 
-        const seccion = document.createElement("section");
-        seccion.className = "menu-seccion";
-        seccion.id = `seccion-${catKey}`;
+        function renderMenu(categoriaFiltro = "todos") {
+            target.innerHTML = "";
 
-        const titulo = document.createElement("h2");
-        titulo.className = "titulo-seccion-manuscrito";
-        titulo.textContent = DISPLAY_NAMES[catKey] || catKey;
-        seccion.appendChild(titulo);
+            Object.keys(MABUZ_DATA).forEach(catKey => {
+                if (categoriaFiltro !== "todos" && categoriaFiltro !== catKey) return;
 
-        const grid = document.createElement("div");
-        grid.className = "grid-productos";
+                const seccion = document.createElement("section");
+                seccion.className = "menu-seccion";
+                seccion.innerHTML = `<h2 class="seccion-titulo">${catKey === "adicionales" ? "Toppings" : catKey}</h2>`;
 
-        lista.forEach(item => {
-            const article = document.createElement("article");
-            article.className = "tarjeta-producto";
+                // Aquí implementamos el contenedor flex con overflow horizontal
+                const grid = document.createElement("div");
+                grid.className = "carrusel-productos"; 
 
-            const subtitulo = sanitizarHTML(item.ing || item.sub || "");
-            const tienePrecios = !!item.precios;
-            const precioHTML = tienePrecios ? `
-                <div class="contenedor-precios-variados" aria-hidden="true">
-                    <div class="fila-precio"><span class="label-variante">Mediana</span><span class="valor-variante">$${sanitizarHTML(item.precios.mediana)}</span></div>
-                    <div class="fila-precio"><span class="label-variante">Familiar</span><span class="valor-variante">$${sanitizarHTML(item.precios.familiar)}</span></div>
-                </div>
-            ` : `<div class="precio-unico" aria-hidden="true">$${sanitizarHTML(item.precio)}</div>`;
+                MABUZ_DATA[catKey].forEach(item => {
+                    const card = document.createElement(catKey === "adicionales" ? "div" : "article");
+                    
+                    // Asignamos la clase correcta dependiendo si es un plato principal o un topping
+                    card.className = catKey === "adicionales" ? "card-topping" : "card";
 
-            const srcImagen = item.imagen ? encodeURI(item.imagen) : 'placeholder.jpg';
+                    if (catKey === "adicionales") {
+                        card.innerHTML = `
+                            <div class="topping-info">
+                                <h4>${sanitizarHTML(item.nombre)}</h4>
+                                <p>${sanitizarHTML(item.sub)}</p>
+                            </div>
+                            <div class="card-price">$${sanitizarHTML(item.precio)}</div>
+                        `;
+                    } else {
+                        let preciosHTML = `<div class="card-price">$${sanitizarHTML(item.precio)}</div>`;
+                        if (item.precios) {
+                            preciosHTML = `
+                                <div class="card-variants">
+                                    <div class="variant-row"><span class="variant-label">Mediana</span><span class="variant-price">$${sanitizarHTML(item.precios.mediana)}</span></div>
+                                    <div class="variant-row"><span class="variant-label">Familiar</span><span class="variant-price">$${sanitizarHTML(item.precios.familiar)}</span></div>
+                                </div>
+                            `;
+                        }
 
-            article.innerHTML = `
-                <div class="contenedor-imagen">
-                    <img src="${srcImagen}" alt="${sanitizarHTML(item.nombre)}" loading="lazy" onerror="this.onerror=null;this.src='placeholder.jpg'">
-                </div>
-                <div class="info-producto">
-                    <div class="meta-titulo"><h3>${sanitizarHTML(item.nombre)}</h3></div>
-                    <p class="descripcion-producto">${subtitulo}</p>
-                    ${precioHTML}
-                </div>
-            `;
-            grid.appendChild(article);
+                        card.innerHTML = `
+                            <div class="card-img-wrapper">
+                                <span class="badge">${sanitizarHTML(catKey)}</span>
+                                <img src="${encodeURI(item.imagen)}" alt="${sanitizarHTML(item.nombre)}" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect width=%22300%22 height=%22200%22 fill=%22%231a1a1a%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666%22 font-family=%22sans-serif%22 font-weight=%22bold%22 font-size=%2214%22>SIN IMAGEN</text></svg>'">
+                            </div>
+                            <div class="card-body">
+                                <div class="card-header">
+                                    <h3 class="card-title">${sanitizarHTML(item.nombre)}</h3>
+                                    ${!item.precios ? preciosHTML : ''}
+                                </div>
+                                <p class="card-desc">${sanitizarHTML(item.ing)}</p>
+                                ${item.precios ? preciosHTML : ''}
+                            </div>
+                        `;
+                    }
+                    grid.appendChild(card);
+                    scrollObserver.observe(card);
+                });
+                
+                // Elemento espaciador al final para que el último item no quede pegado al borde derecho
+                const spacer = document.createElement("div");
+                spacer.className = "carrusel-spacer";
+                grid.appendChild(spacer);
+
+                seccion.appendChild(grid);
+                target.appendChild(seccion);
+            });
+        }
+
+        filtros.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                filtros.forEach(b => b.classList.remove("activo"));
+                e.target.classList.add("activo");
+                renderMenu(e.target.getAttribute("data-categoria"));
+            });
         });
 
-        seccion.appendChild(grid);
-        target.appendChild(seccion);
-    });
-}
-
-/* ============================================
-   Interactividad: filtros y accesibilidad
-   ============================================ */
-function setupFiltros(){
-    const filtros = document.querySelectorAll(".btn-filtro");
-    filtros.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            filtros.forEach(b => { b.classList.remove("activo"); b.setAttribute("aria-pressed","false"); });
-            const el = e.currentTarget;
-            el.classList.add("activo");
-            el.setAttribute("aria-pressed","true");
-
-            const categoria = el.getAttribute("data-categoria");
-            const seccionDestino = document.getElementById(`seccion-${categoria}`);
-            if (seccionDestino) seccionDestino.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-
-        // Permitimos toggle por teclado (Enter/Espacio ya gestionados por <button> nativamente, pero añadimos foco visible)
-        btn.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                btn.click();
-            }
-        });
-    });
-}
-
-/* ============================================
-   Inicialización al cargar DOM
-   ============================================ */
-document.addEventListener("DOMContentLoaded", () => {
-    // Año en footer
-    const yr = document.getElementById('year');
-    if(yr) yr.textContent = new Date().getFullYear();
-
-    renderCartaCompleta();
-    setupFiltros();
-
-    // Si existe un botón activo, scrollear a su sección
-    const activo = document.querySelector('.btn-filtro.activo');
-    if (activo) {
-        const cat = activo.getAttribute('data-categoria');
-        const s = document.getElementById(`seccion-${cat}`);
-        if (s) s.scrollIntoView({behavior:'auto', block:'start'});
-    }
-});
+        document.addEventListener("DOMContentLoaded", () => renderMenu());
     </script>
 </body>
 </html>
