@@ -444,7 +444,7 @@
             <button class="btn-filtro" data-categoria="hamburguesas">Hamburguesas</button>
             <button class="btn-filtro" data-categoria="piezas">Piezas</button>
             <button class="btn-filtro" data-categoria="bebidas">Bebidas</button>
-            <button class="btn-filtro" data-categoria="adicionales">Toppings</button>
+            <button class="btn-filtro" data-categoria="adicionales">Adicionales</button>
         </div>
     </nav>
 
@@ -461,7 +461,7 @@
                 <div class="info-icon">🛵</div>
                 <div class="info-text">
                     <h4>Delivery & Zonas</h4>
-                    <p>Cabudare Centro <span>(Entrega Rápida)</span><span>Barquisimeto Este (Consultar)</span></p>
+                    <p>Santa Cruz de Zulia / Colón / Zulia <span>(Entrega Rápida)</span></p>
                 </div>
             </div>
             <div class="info-item">
@@ -480,9 +480,9 @@
     <section class="reservaciones">
         <div class="res-container">
             <div class="res-grid-img">
-                <img src="42.png" alt="Local Mabuz" class="res-img large" loading="lazy">
-                <img src="footer.png" alt="Mesa Mabuz" class="res-img" loading="lazy">
-                <img src="41.png" alt="Detalle Mabuz" class="res-img" loading="lazy">
+                <img src="42.webp" alt="Local Mabuz" class="res-img large" loading="lazy">
+                <img src="footer.webp" alt="Mesa Mabuz" class="res-img" loading="lazy">
+                <img src="41.webp" alt="Detalle Mabuz" class="res-img" loading="lazy">
             </div>
             <div class="res-info">
                 <h2>Reservaciones</h2>
@@ -529,64 +529,62 @@
 
         const MABUZ_DATA = {
             pizzas: [
-                { id: "p1", nombre: "Margarita", ing: "Jamón, Mozzarella, Salsa Napolitana, Masa de la Casa", precios: { mediana: "25.000", familiar: "40.000" }, imagen: "margarita1.png" },
-                { id: "p2", nombre: "Pepperoni", ing: "Pepperoni, Mozarella, Masa de la Casa", precios: { mediana: "30.000", familiar: "45.000" }, imagen: "pepperoni.png" },
-                { id: "p3", nombre: "Hawaiana", ing: "Piña, Mozzarella, Jamón, Masa de la Casa", precios: { mediana: "30.000", familiar: "50.000" }, imagen: "hawaiana.png" },
-                { id: "p4", nombre: "Cheddar", ing: "Mozzarella, Jamón, Queso Cheddar, Tocineta Crujiente, Masa de la Casa", precios: { mediana: "30.000", familiar: "50.000" }, imagen: "cheddar.png" },
-                { id: "p5", nombre: "4 Estaciones", ing: "Tocineta, Pepperoni, Jamón, Maíz, Mozzarella, Masa de la Casa", precios: { mediana: "35.000", familiar: "55.000" }, imagen: "4_estaciones.png" },
-                { id: "p6", nombre: "Bacon", ing: "Jamón, Maíz, Salsa Bacon, Tocineta, Mozzarella, Masa de la casa", precios: { mediana: "35.000", familiar: "55.000" }, imagen: "bacon.png" },
-                { id: "p7", nombre: "Red", ing: "Tocineta, Pepperoni, Jamón, Salamí, Carne, Masa de la Casa", precios: { mediana: "40.000", familiar: "65.000" }, imagen: "red.png" }
+                { id: "p1", nombre: "Margarita", ing: "Jamón, Mozzarella, Salsa Napolitana, Masa de la Casa", precios: { mediana: "25.000", familiar: "40.000" }, imagen: "margarita1.webp" },
+                { id: "p2", nombre: "Pepperoni", ing: "Pepperoni, Mozarella, Masa de la Casa", precios: { mediana: "30.000", familiar: "45.000" }, imagen: "pepperoni.webp" },
+                { id: "p3", nombre: "Hawaiana", ing: "Piña, Mozzarella, Jamón, Masa de la Casa", precios: { mediana: "30.000", familiar: "50.000" }, imagen: "hawaiana.webp" },
+                { id: "p4", nombre: "Cheddar", ing: "Mozzarella, Jamón, Queso Cheddar, Tocineta Crujiente, Masa de la Casa", precios: { mediana: "30.000", familiar: "50.000" }, imagen: "cheddar.webp" },
+                { id: "p5", nombre: "4 Estaciones", ing: "Tocineta, Pepperoni, Jamón, Maíz, Mozzarella, Masa de la Casa", precios: { mediana: "35.000", familiar: "55.000" }, imagen: "4_estaciones.webp" },
+                { id: "p6", nombre: "Bacon", ing: "Jamón, Maíz, Salsa Bacon, Tocineta, Mozzarella, Masa de la casa", precios: { mediana: "35.000", familiar: "55.000" }, imagen: "bacon.webp" },
+                { id: "p7", nombre: "Red", ing: "Tocineta, Pepperoni, Jamón, Salamí, Carne, Masa de la Casa", precios: { mediana: "40.000", familiar: "65.000" }, imagen: "red.webp" }
             ],
-            hamburguesas: [
-                { id: "h1", nombre: "Bacon", ing: "Pan de Papa, Carne 150g, Doble Cheddar, Mermelada de Tocineta, Lechuga, Tomate, Papas Fritas", precio: "35.000" , imagen: "baco.png" },
-                { id: "h2", nombre: "Americana", ing: "Pan de Papa, Carne 150g, Cheddar, Cebolla Caramelizada, Tomate, Tocineta, Papas Fritas, Lechuga,", precio: "25.000" , imagen: "americana.png" },
-                { id: "h3", nombre: "Pollo Crispi", ing: "Pan de Papa, Pollo Crispi, Queso Americano, Cebolla Caramelizada, Lechuga, Tomate", precio: "25.000" , imagen: "pollo_crispi.png" }
-            ],
-            SalchiPapa: [
-                { id: "h1", nombre: "Nugges", ing: "Piezas de Pollo empanizados", precio: "15.000" , imagen: "nugges.png" },
-                { id: "h2", nombre: "Salchipapa", ing: " 400 gr de Papas Crujientes, Salchichas, Salsas", precio: "16.000" , imagen: "salchipapa.png" },
-                { id: "h3", nombre: "Salchitender de Pollo", ing: "400 gr de Papas Crujientes, Salchichas, tender de Pollo, Salsas", precio: "24.000" , imagen: "salchipollo.png" },
-                { id: "h4", nombre: "SalchiPollo", ing: "400 gr de Papas Crujientes, Salchicha, Pollo, Salsas", precio: "22.000" , imagen: "salchipapa_de_pollo.png" }
-            ],
-            piezas: [
-                { id: "pz1", nombre: "Empanadas de Carne Mechada", ing: "Empanadas crujiente rellena de carne mechada", precio: "3.000", imagen: "carne_mechada.png" },
-                { id: "pz2", nombre: "Pastel de Carne", ing: "Pieza individual crujiente rellena de carne y papa sazonada", precio: "2.500", imagen: "pastel_de_carne.png" },
-                { id: "pz3", nombre: "Pastel de Papa", ing: "Pieza individual tradicional rellenos de Papa y queso", precio: "2.500", imagen: "pastel_de_papa1.png" },
-                { id: "pz4", nombre: "Pastel de Pizza", ing: "Relleno de salsa, queso, Jamón, maíz y orégano", precio: "3.000", imagen: "pastel_de_pizza.png" },
-                { id: "pz5", nombre: "Moñongos", ing: "Rellenos de platano maduro, queso derretido y carne mechada", precio: "8.000", imagen: "monongos.png" },
-                { id: "pz6", nombre: "Tequeños", ing: "Rellenos de queso derretido", precio: "2.500", imagen: "tenequenos.png" },
-                { id: "pz7", nombre: "Tequeños de Mozzarella y Jamón", ing: "Rellenos de queso derretido y Jamón", precio: "4.000", imagen: "tequeno_de_queso.png" },
-                { id: "pz8", nombre: "Tequeños de Queso", ing: "Rellenos de queso derretido", precio: "4.000", imagen: "tequenos_de_mozarella1.png" }
-            ],
-            bebidas: [
-                { id: "b1", nombre: "Agua Mineral", ing: "Formato personal ", precio: "4.000", imagen: "botella.png" },
-                { id: "b2", nombre: "Refrescos de Botella", ing: "Formato personal ", precio: "4.000", imagen: "botella.png" },
-                { id: "b3", nombre: "Refrescos 1L", ing: "Formato familiar de un litro para compartir", precio: "5.000", imagen: "litro.png" },
-                { id: "b4", nombre: "Refrescos 2L", ing: "Formato familiar de dos litros para compartir", precio: "8.000", imagen: "litro.png" },
-                { id: "b5", nombre: "Malta de Lata", ing: "fría para acompañar tus platos", precio: "3.000", imagen: "malta_de_botella.png" },
-                { id: "b6", nombre: "Malta de Botella", ing: "fría para acompañar tus platos", precio: "3.000", imagen: "malta_de_botella.png" },
-                { id: "b7", nombre: "Malta de 1.5L", ing: "fría para acompañar tus platos", precio: "10.000", imagen: "malta_de_litro.png" },
-                { id: "b8", nombre: "Jugo del Valle", ing: "frío para acompañar tus platos", precio: "8.000", imagen: "jugo_del_valle.png" },
-                { id: "b9", nombre: "Cervezas", ing: "frío para acompañar tus platos", precio: "4.000", imagen: "cervezas.png" }
-            ],
-             Cócteles:  [
-                { id: "b1", nombre: "Mojito de Fresa", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "fresa.png" },
-                { id: "b2", nombre: "Mojito de Parchita", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "parchita1.png" },
-                { id: "b3", nombre: "Mojito Clasico", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "clasico1.png" },
-                { id: "b4", nombre: "Cóctel Daikiry", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "daikiry1.png" },
-                { id: "b5", nombre: "Limonada de Coco", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "limonada_de_coco1.png" },
-                { id: "b6", nombre: "Cuba Libre", ing: "Una versión frutada y refrescante", precio: "8.000", imagen: "cuba_libre1.png" }
-            ],
-            
-            adicionales: [
+            Adicionales: [
                 { id: "a1", nombre: "Cebolla, Maíz y Pimenton", sub: "Maíz / Pimentón / Cebolla", precio: "3.000" },
                 { id: "a2", nombre: "Aceitunas negras", sub: "Aceitunas negras", precio: "4.000" },
                 { id: "a3", nombre: "Pepperoni", sub: "Pepperoni", precio: "8.000" },
                 { id: "a4", nombre: "Salami", sub: "Salami", precio: "8.000" },
                 { id: "a5", nombre: "Champiñones", sub: "Champiñones", precio: "6.000" },
-                { id: "a6", nombre: "Porción de Papa", sub: " 200 gr de Papas Crujientes", precio: "10.000" },
                 { id: "a7", nombre: "Tocineta", sub: "Tiras crujientes adicionales", precio: "5.000" },
                 { id: "a8", nombre: "Queso Extra", sub: "Doble ración de mozzarella", precio: "10.000" }
+            ],
+            Hamburguesas: [
+                { id: "h1", nombre: "Bacon", ing: "Pan de Papa, Carne 150g, Doble Cheddar, Mermelada de Tocineta, Lechuga, Tomate, Papas Fritas", precio: "35.000" , imagen: "baco.webp" },
+                { id: "h2", nombre: "Americana", ing: "Pan de Papa, Carne 150g, Cheddar, Cebolla Caramelizada, Tomate, Tocineta, Papas Fritas, Lechuga,", precio: "25.000" , imagen: "americana.webp" },
+                { id: "h3", nombre: "Pollo Crispi", ing: "Pan de Papa, Pollo Crispi, Queso Americano, Cebolla Caramelizada, Lechuga, Tomate", precio: "25.000" , imagen: "pollo_crispi.webp" },
+                { id: "a4", nombre: "Porción de Papa", sub: " 200 gr de Papas Crujientes", precio: "10.000" },
+            ],
+            SalchiPapa: [
+                { id: "h1", nombre: "Nugges", ing: "Piezas de Pollo empanizados", precio: "15.000" , imagen: "nugges.webp" },
+                { id: "h2", nombre: "Salchipapa", ing: " 400 gr de Papas Crujientes, Salchichas, Salsas", precio: "16.000" , imagen: "salchipapa.webp" },
+                { id: "h3", nombre: "Salchitender de Pollo", ing: "400 gr de Papas Crujientes, Salchichas, tender de Pollo, Salsas", precio: "24.000" , imagen: "salchipollo.webp" },
+                { id: "h4", nombre: "SalchiPollo", ing: "400 gr de Papas Crujientes, Salchicha, Pollo, Salsas", precio: "22.000" , imagen: "salchipapa_de_pollo.webp" }
+            ],
+            Piezas: [
+                { id: "pz1", nombre: "Empanadas de Carne Mechada", ing: "Empanadas crujiente rellena de carne mechada", precio: "3.000", imagen: "carne_mechada.webp" },
+                { id: "pz2", nombre: "Pastel de Carne", ing: "Pieza individual crujiente rellena de carne y papa sazonada", precio: "2.500", imagen: "pastel_de_carne.webp" },
+                { id: "pz3", nombre: "Pastel de Papa", ing: "Pieza individual tradicional rellenos de Papa y queso", precio: "2.500", imagen: "pastel_de_papa1.webp" },
+                { id: "pz4", nombre: "Pastel de Pizza", ing: "Relleno de salsa, queso, Jamón, maíz y orégano", precio: "3.000", imagen: "pastel_de_pizza.webp" },
+                { id: "pz5", nombre: "Moñongos", ing: "Rellenos de platano maduro, queso derretido y carne mechada", precio: "8.000", imagen: "monongos.webp" },
+                { id: "pz6", nombre: "Tequeños", ing: "Rellenos de queso derretido", precio: "2.500", imagen: "tenequenos.webp" },
+                { id: "pz7", nombre: "Tequeños de Mozzarella y Jamón", ing: "Rellenos de queso derretido y Jamón", precio: "4.000", imagen: "tequeno_de_queso.webp" },
+            ],
+            Bebidas: [
+                { id: "b1", nombre: "Agua Mineral", ing: "Formato personal ", precio: "4.000", imagen: "agua_mineral.webp" },
+                { id: "b2", nombre: "Refrescos de Botella", ing: "Formato personal ", precio: "4.000", imagen: "botella.webp" },
+                { id: "b3", nombre: "Refrescos 1L", ing: "Formato familiar de un litro para compartir", precio: "5.000", imagen: "litro.webp" },
+                { id: "b4", nombre: "Refrescos 2L", ing: "Formato familiar de dos litros para compartir", precio: "8.000", imagen: "litro.webp" },
+                { id: "b5", nombre: "Malta de Lata", ing: "fría para acompañar tus platos", precio: "3.000", imagen: "malta_de_botella.webp" },
+                { id: "b6", nombre: "Malta de Botella", ing: "fría para acompañar tus platos", precio: "3.000", imagen: "malta_de_botella.webp" },
+                { id: "b7", nombre: "Malta de 1.5L", ing: "fría para acompañar tus platos", precio:"10.000", imagen: "malta_de_litro.webp" },
+                { id: "b8", nombre: "Jugo del Valle", ing: "frío para acompañar tus platos", precio: "8.000", imagen: "jugo_del_valle.webp" },
+                { id: "b9", nombre: "Cervezas", ing: "frío para acompañar tus platos", precio: "4.000", imagen: "cervezas.webp" }
+            ],
+             Cócteles:  [
+                { id: "b1", nombre: "Mojito de Fresa", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "fresa.webp" },
+                { id: "b2", nombre: "Mojito de Parchita", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "parchita1.webp" },
+                { id: "b3", nombre: "Mojito Clasico", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "clasico1.webp" },
+                { id: "b4", nombre: "Cóctel Daikiry", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "daikiry1.webp" },
+                { id: "b5", nombre: "Limonada de Coco", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "limonada_de_coco1.webp" },
+                { id: "b6", nombre: "Cuba Libre", ing: "Una versión frutada y refrescante", precio: "8.000", imagen: "cuba_libre1.webp" }
             ]
         };
 
@@ -652,7 +650,7 @@
                         card.innerHTML = `
                             <div class="card-img-wrapper">
                                 <span class="badge">${sanitizarHTML(catKey)}</span>
-                                <img src="${encodeURI(item.imagen)}" alt="${sanitizarHTML(item.nombre)}" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect width=%22300%22 height=%22200%22 fill=%22%231a1a1a%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666%22 font-family=%22sans-serif%22 font-weight=%22bold%22 font-size=%2214%22>SIN IMAGEN</text></svg>'">
+                                <img src="${encodeURI(item.imagen)}" alt="${sanitizarHTML(item.nombre)}" loading="lazy" width="300" height="225" onerror="this.src='data:image/svg+xml;utf8,...'"> 
                             </div>
                             <div class="card-body">
                                 <div class="card-header">
