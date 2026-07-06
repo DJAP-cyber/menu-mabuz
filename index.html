@@ -237,6 +237,7 @@
             align-items: center;
             gap: 0.75rem;
             padding: 0 1rem; /* Mantenemos el título alineado al contenido */
+            text-transform: capitalize;
         }
         
         .seccion-titulo::before {
@@ -537,7 +538,7 @@
                 { id: "p6", nombre: "Bacon", ing: "Jamón, Maíz, Salsa Bacon, Tocineta, Mozzarella, Masa de la casa", precios: { mediana: "35.000", familiar: "55.000" }, imagen: "bacon.webp" },
                 { id: "p7", nombre: "Red", ing: "Tocineta, Pepperoni, Jamón, Salamí, Carne, Masa de la Casa", precios: { mediana: "40.000", familiar: "65.000" }, imagen: "red.webp" }
             ],
-            Adicionales: [
+            adicionales: [
                 { id: "a1", nombre: "Cebolla, Maíz y Pimenton", sub: "Maíz / Pimentón / Cebolla", precio: "3.000" },
                 { id: "a2", nombre: "Aceitunas negras", sub: "Aceitunas negras", precio: "4.000" },
                 { id: "a3", nombre: "Pepperoni", sub: "Pepperoni", precio: "8.000" },
@@ -546,19 +547,19 @@
                 { id: "a7", nombre: "Tocineta", sub: "Tiras crujientes adicionales", precio: "5.000" },
                 { id: "a8", nombre: "Queso Extra", sub: "Doble ración de mozzarella", precio: "10.000" }
             ],
-            Hamburguesas: [
+            hamburguesas: [
                 { id: "h1", nombre: "Bacon", ing: "Pan de Papa, Carne 150g, Doble Cheddar, Mermelada de Tocineta, Lechuga, Tomate, Papas Fritas", precio: "35.000" , imagen: "baco.webp" },
                 { id: "h2", nombre: "Americana", ing: "Pan de Papa, Carne 150g, Cheddar, Cebolla Caramelizada, Tomate, Tocineta, Papas Fritas, Lechuga,", precio: "25.000" , imagen: "americana.webp" },
                 { id: "h3", nombre: "Pollo Crispi", ing: "Pan de Papa, Pollo Crispi, Queso Americano, Cebolla Caramelizada, Lechuga, Tomate", precio: "25.000" , imagen: "pollo_crispi.webp" },
                 { id: "a4", nombre: "Porción de Papa", sub: " 200 gr de Papas Crujientes", precio: "10.000" },
             ],
-            SalchiPapa: [
+            salchiPapa: [
                 { id: "h1", nombre: "Nugges", ing: "Piezas de Pollo empanizados", precio: "15.000" , imagen: "nugges.webp" },
                 { id: "h2", nombre: "Salchipapa", ing: " 400 gr de Papas Crujientes, Salchichas, Salsas", precio: "16.000" , imagen: "salchipapa.webp" },
                 { id: "h3", nombre: "Salchitender de Pollo", ing: "400 gr de Papas Crujientes, Salchichas, tender de Pollo, Salsas", precio: "24.000" , imagen: "salchipollo.webp" },
                 { id: "h4", nombre: "SalchiPollo", ing: "400 gr de Papas Crujientes, Salchicha, Pollo, Salsas", precio: "22.000" , imagen: "salchipapa_de_pollo.webp" }
             ],
-            Piezas: [
+            piezas: [
                 { id: "pz1", nombre: "Empanadas de Carne Mechada", ing: "Empanadas crujiente rellena de carne mechada", precio: "3.000", imagen: "carne_mechada.webp" },
                 { id: "pz2", nombre: "Pastel de Carne", ing: "Pieza individual crujiente rellena de carne y papa sazonada", precio: "2.500", imagen: "pastel_de_carne.webp" },
                 { id: "pz3", nombre: "Pastel de Papa", ing: "Pieza individual tradicional rellenos de Papa y queso", precio: "2.500", imagen: "pastel_de_papa1.webp" },
@@ -567,7 +568,7 @@
                 { id: "pz6", nombre: "Tequeños", ing: "Rellenos de queso derretido", precio: "2.500", imagen: "tenequenos.webp" },
                 { id: "pz7", nombre: "Tequeños de Mozzarella y Jamón", ing: "Rellenos de queso derretido y Jamón", precio: "4.000", imagen: "tequeno_de_queso.webp" },
             ],
-            Bebidas: [
+            bebidas: [
                 { id: "b1", nombre: "Agua Mineral", ing: "Formato personal ", precio: "4.000", imagen: "agua_mineral.webp" },
                 { id: "b2", nombre: "Refrescos de Botella", ing: "Formato personal ", precio: "4.000", imagen: "botella.webp" },
                 { id: "b3", nombre: "Refrescos 1L", ing: "Formato familiar de un litro para compartir", precio: "5.000", imagen: "litro.webp" },
@@ -578,7 +579,7 @@
                 { id: "b8", nombre: "Jugo del Valle", ing: "frío para acompañar tus platos", precio: "8.000", imagen: "jugo_del_valle.webp" },
                 { id: "b9", nombre: "Cervezas", ing: "frío para acompañar tus platos", precio: "4.000", imagen: "cervezas.webp" }
             ],
-             Cócteles:  [
+             cócteles:  [
                 { id: "b1", nombre: "Mojito de Fresa", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "fresa.webp" },
                 { id: "b2", nombre: "Mojito de Parchita", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "parchita1.webp" },
                 { id: "b3", nombre: "Mojito Clasico", ing: "Una versión frutada y refrescante", precio: "12.000", imagen: "clasico1.webp" },
@@ -616,7 +617,7 @@
 
                 const seccion = document.createElement("section");
                 seccion.className = "menu-seccion";
-                seccion.innerHTML = `<h2 class="seccion-titulo">${catKey === "adicionales" ? "Toppings" : catKey}</h2>`;
+                seccion.innerHTML = `<h2 class="seccion-titulo">${catKey === "adicionales" ? "Adicionales" : catKey}</h2>`;
 
                 // Aquí implementamos el contenedor flex con overflow horizontal
                 const grid = document.createElement("div");
