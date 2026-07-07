@@ -635,15 +635,15 @@
                                 <h4>${sanitizarHTML(item.nombre)}</h4>
                                 <p>${sanitizarHTML(item.sub)}</p>
                             </div>
-                            <div class="card-price">$${sanitizarHTML(item.precio)}</div>
+                            <div class="card-price">COP ${sanitizarHTML(item.precio)}</div>
                         `;
                     } else {
-                        let preciosHTML = `<div class="card-price">$${sanitizarHTML(item.precio)}</div>`;
+                        let preciosHTML = `<div class="card-price">COP ${sanitizarHTML(item.precio)}</div>`;
                         if (item.precios) {
                             preciosHTML = `
                                 <div class="card-variants">
-                                    <div class="variant-row"><span class="variant-label">Mediana</span><span class="variant-price">$${sanitizarHTML(item.precios.mediana)}</span></div>
-                                    <div class="variant-row"><span class="variant-label">Familiar</span><span class="variant-price">$${sanitizarHTML(item.precios.familiar)}</span></div>
+                                    <div class="variant-row"><span class="variant-label">Mediana</span><span class="variant-price">COP ${sanitizarHTML(item.precios.mediana)}</span></div>
+                                    <div class="variant-row"><span class="variant-label">Familiar</span><span class="variant-price">COP ${sanitizarHTML(item.precios.familiar)}</span></div>
                                 </div>
                             `;
                         }
